@@ -19,8 +19,8 @@ jak_da_t * jak_da_new( unsigned int initial_size, float growth_factor, unsigned 
 	a = malloc( sizeof( jak_da_t ) );
 	check( a, final_cleanup );
 
-	a->data = malloc( initial_size * el_size );
-	check( a->data, a_cleanup );
+	a->el = malloc( initial_size * el_size );
+	check( a->el, a_cleanup );
 
 	a->len = 0;
 	a->max_len = initial_size;
@@ -50,20 +50,27 @@ int jak_da_push( jak_da_t * a, void * el ) {
 		new_len = a->max_len * a->factor;
 		check( new_len > a->len, final_cleanup );
 
-		tmp = realloc( a->data, new_len * a->el_size );
+		tmp = realloc( a->el, new_len * a->el_size );
 		check( tmp, final_cleanup );
 
-		a->data = tmp;
+		a->el = tmp;
 		a->max_len = new_len;
 
 	}
 
-	memcpy( (char *)a->data + a->len * a->el_size, el, a->el_size );
+	memcpy( (char *)a->el + a->len * a->el_size, el, a->el_size );
 	a->len++;
 
 	return 0;
 
 final_cleanup:
 	return -1;
+
+}
+
+void jak_da_free( jak_da_t * a ) {
+
+	free( a->el );
+	free( a );
 
 }
