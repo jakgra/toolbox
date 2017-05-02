@@ -1,7 +1,7 @@
 #!/bin/bash
 
 i=0
-for t in "da.c ../jak_da.c"
+for t in "da.c ../jak_da.c" "ht.c ../jak_ht.c murmur3.c ../jak_da.c"
 do
 	i=$((i+1))
 	rm -f test$i
