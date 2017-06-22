@@ -39,27 +39,13 @@ final_cleanup:
 
 int jak_da_push( jak_da_t * a, void * el ) {
 
-	unsigned int new_len;
-	void * tmp;
+	int rc;
 
 
-	check( a->len <= a->max_len, final_cleanup );
+	rc = jak_da_resize( a, a->len + 1 );
+	check( rc == 0, final_cleanup );
 
-	if( a->len == a->max_len ) {
-
-		new_len = a->max_len * a->factor;
-		check( new_len > a->len, final_cleanup );
-
-		tmp = realloc( a->el, new_len * a->el_size );
-		check( tmp, final_cleanup );
-
-		a->el = tmp;
-		a->max_len = new_len;
-
-	}
-
-	memcpy( (char *)a->el + a->len * a->el_size, el, a->el_size );
-	a->len++;
+	memcpy( (char *)a->el + ( a->len - 1 ) * a->el_size, el, a->el_size );
 
 	return 0;
 
@@ -73,4 +59,39 @@ void jak_da_free( jak_da_t * a ) {
 	free( a->el );
 	free( a );
 
+}
+
+int jak_da_resize( jak_da_t * a, unsigned int i ) {
+
+	unsigned int new_len;
+	void * tmp;
+
+
+	if( i > a->max_len || i * a->factor < a->max_len ) {
+
+		new_len = i * a->factor;
+
+		tmp = realloc( a->el, new_len * a->el_size );
+		check( tmp, final_cleanup );
+
+		a->el = tmp;
+		a->max_len = new_len;
+
+	}
+
+	a->len = i;
+
+	return 0;
+
+final_cleanup:
+	return -1;
+
+}
+
+int jak_da_pop( jak_da_t * a ) {
+	return jak_da_resize( a, a->len - 1 );
+}
+
+void jak_da_zero_out( jak_da_t * a ) {
+	memset( a->el, 0, a->el_size * a->len );
 }

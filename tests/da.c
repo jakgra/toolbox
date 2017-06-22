@@ -33,6 +33,27 @@ int main() {
 	}
 	check( i == ELS_LEN, final_cleanup );
 
+	while( a->len > 1 ) {
+
+		rc = jak_da_pop( a );
+		check( rc == 0, final_cleanup );
+
+	}
+	check( a->len == 1, final_cleanup );
+
+	rc = jak_da_push( a, &els[5] );
+	check( rc == 0, final_cleanup );
+
+	rc = jak_da_push( a, &els[3] );
+	check( rc == 0, final_cleanup );
+
+	jak_da_zero_out( a );
+	check(
+			*( (int *)jak_da_get( a, 0 ) ) == 0
+			&& *( (int *)jak_da_get( a, 1 ) ) == 0,
+			final_cleanup
+	     );
+
 	jak_da_free( a );
 
 	return 0;

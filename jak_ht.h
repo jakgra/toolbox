@@ -8,6 +8,8 @@
  * All functions that return int return 0 on success if not specified otherwise
  */
 
+#include <stdint.h>
+
 
 
 
@@ -24,9 +26,10 @@ typedef struct jak_ht jak_ht_t;
 jak_ht_t * jak_ht_new(
 		unsigned int initial_buckets_count,
 		float growth_factor,
-		int (*compare_keys)( void *, void * ),
-		uint32_t (*key_to_hash)( void * ),
-		void (*value_destructor)( void * )
+		int (*compare_keys)( void * key1, void * key2 ), /**< Should return 0 if keys differ
+								   and 1 otherwise */
+		uint32_t (*key_to_hash)( void * key ),
+		void (*destructor)( void * key, void * value ) /**< Can be NULL */
 		);
 
 /**

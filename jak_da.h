@@ -49,10 +49,28 @@ void jak_da_free( jak_da_t * a );
 int jak_da_push( jak_da_t * a, void * el );
 
 /**
+ * Pops the last element off the array (attention it doesn't memset() it to NULL!)
+ */
+int jak_da_pop( jak_da_t * a );
+
+/**
  * Accessor macro for array elements.
  * To access the element at index i of array a use: jak_da_el( a, i )
  */
 #define jak_da_get( a, i ) ( (void *)( (char *)a->el + i * a->el_size ) )
+
+/**
+ * Allocates or deallocates place in the array so it contains i members.
+ * The lenght is changed and the buffer backing the dynamic array
+ * is grown or shrinked according to the growth factor.
+ */
+int jak_da_resize( jak_da_t * a, unsigned int i );
+
+/**
+ * Overwrites the buffer backing the dynamic array with zeros.
+ */
+void jak_da_zero_out( jak_da_t * a );
+
 
 
 
