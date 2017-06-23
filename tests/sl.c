@@ -46,11 +46,11 @@ int main() {
 
 	i = 0;
 
-	JAK_L_FOREACH( l, val2 ) {
+	JAK_SL_FOREACH( l, val2 ) {
 		check( *( (int *)val2 ) == i * 22, final_cleanup );
 		i++;
 	}
-	JAK_L_FOREACH_END;
+	JAK_SL_FOREACH_END;
 	check( i == ELS_LEN, final_cleanup );
 
 	jak_sl_free( l );
@@ -71,7 +71,7 @@ int main() {
 	check( rc == 0, final_cleanup );
 
 	i = 0;
-	JAK_L_FOREACH( l, val2 ) {
+	JAK_SL_FOREACH( l, val2 ) {
 		if( i == 0 ) {
 			v = 0.55f;
 		} else if( i == 1 ) {
@@ -82,18 +82,18 @@ int main() {
 		check( *( (float *)val2 ) == v, final_cleanup );
 		i++;
 	}
-	JAK_L_FOREACH_END;
+	JAK_SL_FOREACH_END;
 	check( i == 3, final_cleanup );
 
 	jak_sl_remove( l, &v3 );
 	jak_sl_remove( l, &v2 );
 
 	i = 0;
-	JAK_L_FOREACH( l, val2 ) {
+	JAK_SL_FOREACH( l, val2 ) {
 		check( *( (float *)val2 ) == 0.5f, final_cleanup );
 		i++;
 	}
-	JAK_L_FOREACH_END;
+	JAK_SL_FOREACH_END;
 	check( i == 1, final_cleanup );
 
 	jak_sl_free( l );

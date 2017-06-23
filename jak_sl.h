@@ -65,11 +65,11 @@ void jak_sl_remove( jak_sl_t * l, void * val );
 /**
  * A macro for easier looping trough the list.
  */
-#define JAK_L_FOREACH( L, V ) \
+#define JAK_SL_FOREACH( L, V ) \
 { \
 	jak_sl_el_t * jak_sl_p_el = L->first; \
 	for( V = ( jak_sl_p_el ? jak_sl_p_el->val : NULL ); jak_sl_p_el; ( jak_sl_p_el = jak_sl_p_el->next ), ( V = ( jak_sl_p_el ? jak_sl_p_el->val : NULL ) ) )
-#define JAK_L_FOREACH_END }
+#define JAK_SL_FOREACH_END }
 
 
 
