@@ -42,7 +42,7 @@
 #define log_warn(M) jak_print( "[WARN] (%s:%d) " M "\n", __FILE__, __LINE__)
 #define log_warn_v(M, ...) jak_print( "[WARN] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
-#define log_info(M, ...) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define log_info(M) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__)
 #define log_info_v(M, ...) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 #define log_err_empty() jak_print( "[ERROR] (%s:%d: errno: %s)\n", __FILE__, __LINE__, clean_errno())
