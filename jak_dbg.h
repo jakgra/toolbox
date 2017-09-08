@@ -56,6 +56,18 @@
 	jak_print( "[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, clean_errno(), ##__VA_ARGS__ ); \
 			errno=0; goto B; }
 
+#ifdef JAK_DBG_TIME_PROFILING
+#include <sys/time.h>
+#define log_time() { \
+        struct timeval tms; \
+        gettimeofday(&tms, NULL); \
+        long unsigned micros = tms.tv_sec * 1000000; \
+        micros += tms.tv_usec; \
+        debug_v( "Time was %lu", micros ); \
+}
+#endif
+
+
 
 
 #pragma clang diagnostic pop
