@@ -42,7 +42,7 @@
 #define log_warn(M) jak_print( "[WARN] (%s:%d) " M "\n", __FILE__, __LINE__)
 #define log_warn_v(M, ...) jak_print( "[WARN] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
-#define log_info(M, ...) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define log_info(M) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__)
 #define log_info_v(M, ...) jak_print( "[INFO] (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 #define log_err_empty() jak_print( "[ERROR] (%s:%d: errno: %s)\n", __FILE__, __LINE__, clean_errno())
@@ -55,6 +55,18 @@
 #define check_msg_v(A, B, M, ...) if(!(A)) { \
 	jak_print( "[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, clean_errno(), ##__VA_ARGS__ ); \
 			errno=0; goto B; }
+
+#ifdef JAK_DBG_TIME_PROFILING
+#include <sys/time.h>
+#define log_time() { \
+        struct timeval tms; \
+        gettimeofday(&tms, NULL); \
+        long unsigned micros = tms.tv_sec * 1000000; \
+        micros += tms.tv_usec; \
+        debug_v( "Time was %lu", micros ); \
+}
+#endif
+
 
 
 
