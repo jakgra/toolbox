@@ -89,7 +89,13 @@ final_cleanup:
 }
 
 int jak_da_pop( jak_da_t * a ) {
+
+	check( a->len > 0, final_cleanup );
 	return jak_da_resize( a, a->len - 1 );
+
+final_cleanup:
+	return -1;
+
 }
 
 void jak_da_zero_out( jak_da_t * a ) {
