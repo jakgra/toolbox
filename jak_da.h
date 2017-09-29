@@ -57,7 +57,7 @@ int jak_da_pop( jak_da_t * a );
  * Accessor macro for array elements.
  * To access the element at index i of array a use: jak_da_el( a, i )
  */
-#define jak_da_get( a, i ) ( ( i < a->len && i > 0 ) ? ( (void *)( (char *)( a )->el + ( i ) * a->el_size ) ) : NULL )
+#define jak_da_get( a, i ) ( ( i < a->len && i >= 0 ) ? ( (void *)( (char *)( a )->el + ( i ) * a->el_size ) ) : NULL )
 
 /**
  * Accessor macro for last element in array.
