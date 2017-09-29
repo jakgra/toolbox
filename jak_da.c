@@ -67,7 +67,7 @@ int jak_da_resize( jak_da_t * a, unsigned int i ) {
 	void * tmp;
 
 
-	if( i > a->max_len || i * a->factor < a->max_len ) {
+	if( i > 0 && ( i > a->max_len || (float)( i ) * a->factor < a->max_len ) ) {
 
 		new_len = i * a->factor;
 
