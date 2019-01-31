@@ -24,7 +24,12 @@
 #include <errno.h>
 #include <string.h>
 
+#ifndef  JAK_DBG_IOS
 #define jak_print(...) fprintf( stderr, ##__VA_ARGS__ )
+#else
+#include <os/log.h>
+#define jak_print(...) os_log(OS_LOG_DEFAULT, ##__VA_ARGS__)
+#endif
 
 #ifdef NDEBUG
 #define debug(M)
