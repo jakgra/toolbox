@@ -24,11 +24,19 @@
 #include <errno.h>
 #include <string.h>
 
-#ifndef  JAK_DBG_IOS
 #define jak_print(...) fprintf( stderr, ##__VA_ARGS__ )
-#else
+#ifdef  JAK_DBG_IOS
 #include <os/log.h>
+#undef jak_print
 #define jak_print(...) os_log(OS_LOG_DEFAULT, ##__VA_ARGS__)
+#endif
+#ifdef JAK_DBG_ANDROID
+#include <android/log.h>
+#ifndef JAK_DBG_ANDROID_TAG
+#define JAK_DBG_ANDROID_TAG "jak_dbg"
+#endif
+#undef jak_print
+#define jak_print(...) __android_log_print(ANDROID_LOG_ERROR, JAK_DBG_ANDROID_TAG, ##__VA_ARGS__)
 #endif
 
 #ifdef NDEBUG
