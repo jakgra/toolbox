@@ -58,12 +58,12 @@ int jak_da_pop( jak_da_t * a );
  * Accessor macro for array elements.
  * To access the element at index i of array a use: jak_da_el( a, i )
  */
-#define jak_da_get( a, i ) ( ( i < a->len ) ? ( (void *)( (char *)( a )->el + ( i ) * a->el_size ) ) : NULL )
+#define jak_da_get( a, i ) ( ( i < ( a )->len ) ? ( (void *)( (char *)( a )->el + ( i ) * ( a )->el_size ) ) : NULL )
 
 /**
  * Accessor macro for last element in array.
  */
-#define jak_da_last( a ) ( ( a->len > 0  ) ? ( (void *)( (char *)( a )->el + ( a->len - 1 ) * a->el_size ) ) : NULL )
+#define jak_da_last( a ) ( ( ( a )->len > 0  ) ? ( (void *)( (char *)( a )->el + ( ( a )->len - 1 ) * ( a )->el_size ) ) : NULL )
 
 /**
  * Allocates or deallocates place in the array so it contains i members.
@@ -77,7 +77,59 @@ int jak_da_resize( jak_da_t * a, unsigned int i );
  */
 void jak_da_zero_out( jak_da_t * a );
 
-
-
+/**
+ * A very usefull macro to make the dynamic array typesafe.
+ * To create an array of integers just use
+ * JAK_DA_TYPE_SAFE(my_da, int)
+ * and then use the above functions with the my_da prefix:
+ * my_da_t *dynamic_arr = my_da_new(5, -1.0f);
+ * int a = 3;
+ * my_da_push(dynamic_arr, &a);
+ * int b = *my_da_get(dynamic_arr, 0);
+ */
+#define JAK_DA_TYPE_SAFE(prefix, type)                                         \
+                                                                               \
+  typedef struct {                                                             \
+  } prefix##_t;                                                                \
+                                                                               \
+  static inline prefix##_t *prefix##_new(unsigned int initial_size,            \
+                                         float growth_factor) {                \
+    return (prefix##_t *)jak_da_new(initial_size, growth_factor,               \
+                                    sizeof(type));                             \
+  }                                                                            \
+                                                                               \
+  static inline void prefix##_free(prefix##_t *a) {                            \
+    jak_da_free((jak_da_t *)a);                                                \
+  }                                                                            \
+                                                                               \
+  static inline int prefix##_push(prefix##_t *a, type *el) {                   \
+    return jak_da_push((jak_da_t *)a, (void *)el);                             \
+  }                                                                            \
+                                                                               \
+  static inline int prefix##_pop(prefix##_t *a) {                              \
+    return jak_da_pop((jak_da_t *)a);                                          \
+  }                                                                            \
+                                                                               \
+  static inline type *prefix##_get(prefix##_t *a, int i) {                     \
+    return (type *)jak_da_get((jak_da_t *)a, i);                               \
+  }                                                                            \
+                                                                               \
+  static inline type *prefix##_last(prefix##_t *a) {                           \
+    return (type *)jak_da_last((jak_da_t *)a);                                 \
+  }                                                                            \
+                                                                               \
+  static inline int prefix##_resize(prefix##_t *a, unsigned int i) {           \
+    return jak_da_resize((jak_da_t *)a, i);                                    \
+  }                                                                            \
+                                                                               \
+  static inline void prefix##_zero_out(prefix##_t *a) {                        \
+    jak_da_zero_out((jak_da_t *)a);                                            \
+  }                                                                            \
+                                                                               \
+  static inline type *prefix##_data(prefix##_t *a) {                           \
+    return ((((jak_da_t *)a)->len > 0) ? ((type *)((jak_da_t *)a)->el)         \
+                                       : NULL);                                \
+  }                                                                            \
+  static inline int prefix##_len(prefix##_t *a) { return ((jak_da_t *)a)->len; }
 
 #endif
