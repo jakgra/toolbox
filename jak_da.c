@@ -56,8 +56,10 @@ final_cleanup:
 
 void jak_da_free( jak_da_t * a ) {
 
-	free( a->el );
-	free( a );
+	if( a ) {
+		free( a->el );
+		free( a );
+	}
 
 }
 

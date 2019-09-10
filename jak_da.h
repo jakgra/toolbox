@@ -39,6 +39,7 @@ jak_da_t * jak_da_new( unsigned int initial_size, float growth_factor, unsigned 
 
 /**
  * Frees all the memory associated with the a object created via jak_da_new() and deallocates it.
+ * Can be called with NULL argument.
  */
 void jak_da_free( jak_da_t * a );
 
