@@ -127,8 +127,7 @@ void jak_da_zero_out( jak_da_t * a );
   }                                                                            \
                                                                                \
   static inline type *prefix##_data(prefix##_t *a) {                           \
-    return ((((jak_da_t *)a)->len > 0) ? ((type *)((jak_da_t *)a)->el)         \
-                                       : NULL);                                \
+    return ((a) ? ((type *)((jak_da_t *)a)->el) : NULL);                       \
   }                                                                            \
   static inline int prefix##_len(prefix##_t *a) { return ((jak_da_t *)a)->len; }
 
