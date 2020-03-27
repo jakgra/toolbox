@@ -110,7 +110,7 @@ void jak_da_zero_out( jak_da_t * a );
     return jak_da_pop((jak_da_t *)a);                                          \
   }                                                                            \
                                                                                \
-  static inline type *prefix##_get(prefix##_t *a, int i) {                     \
+  static inline type *prefix##_get(prefix##_t *a, unsigned int i) {            \
     return (type *)jak_da_get((jak_da_t *)a, i);                               \
   }                                                                            \
                                                                                \
