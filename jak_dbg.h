@@ -69,11 +69,14 @@
 	jak_print( "[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, clean_errno(), ##__VA_ARGS__ ); \
 			errno=0; goto B; }
 
-#define check_r(A, B, R) res = R; check(A, B)
+#define check_r(A, B, R) if(!(A)) { res = R; log_err_empty(); errno=0; goto B; }
+#define check_r_msg(A, B, R, M ) if(!(A)) { res = R; \
+	jak_print( "[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, clean_errno() ); \
+			errno=0; goto B; }
+#define check_r_msg_v(A, B, R, M, ...) if(!(A)) { res = R; \
+	jak_print( "[ERROR] (%s:%d: errno: %s) " M "\n", __FILE__, __LINE__, clean_errno(), ##__VA_ARGS__ ); \
+			errno=0; goto B; }
 
-#define check_r_msg(A, B, R, M) res = R; check_msg(A, B, M)
-
-#define check_r_msg_v(A, B, R, M, ...) res = R; check_msg_v(A, B, M, ##__VA_ARGS__)
 
 #ifdef JAK_DBG_TIME_PROFILING
 #include <sys/time.h>
